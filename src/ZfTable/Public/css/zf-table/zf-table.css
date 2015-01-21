@@ -1,18 +1,35 @@
 .processing {
-  background: url("../../img/zf-table/ajax-loader.gif") no-repeat scroll 0 0 transparent;
+
+  background: #fff;
   border-radius: 5px 5px 5px 5px;
   color: #FFFFFF;
   display: block;
-  float: left;
-  height: 15px;
-  left: 50%;
-  margin-left: -50px;
   position: absolute;
   text-align: center;
   text-transform: uppercase;
-  top: 10%;
-  width: 128px;
+  top:0;
+  bottom:0;
+  left:0;
+  right: 0;
+  z-index: 999;
+  opacity: 0.3;
 }
+
+.processing div {
+  background: url("../images/zf-table/ajax-loader.gif") no-repeat scroll center center transparent;
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index: 1000;
+}
+
+.dataTables_wrapper {
+  position: relative;
+}
+
+
 
 td.editable , .table-hover>tbody>tr:hover>td.editable , .table-striped>tbody>tr:nth-child(odd)>td.editable {
     background-color: #FFFCF0;
@@ -37,9 +54,20 @@ table.table thead .sorting_desc_disabled {
 	*cursor: hand;
 }
 
-table.table thead .sorting { background: url('../../img/datatable/sort_both.png') no-repeat center right; }
-table.table thead .sorting_asc { background: url('../../img/datatable/sort_asc.png') no-repeat center right; }
-table.table thead .sorting_desc { background: url('../../img/datatable/sort_desc.png') no-repeat center right; }
+/*table.table thead .sorting { background: url('../images/datatable/sort_both.png') no-repeat center right; }*/
+/*table.table thead .sorting_asc { background: url('../images/datatable/sort_asc.png') no-repeat center right; }*/
+/*table.table thead .sorting_desc { background: url('../images/datatable/sort_desc.png') no-repeat center right; }*/
 
-table.table thead .sorting_asc_disabled { background: url('../../img/datatable/sort_asc_disabled.png') no-repeat center right; }
-table.table thead .sorting_desc_disabled { background: url('../../img/datatable/sort_desc_disabled.png') no-repeat center right; }
+table.table thead .sorting_asc_disabled { background: url('../images/datatable/sort_asc_disabled.png') no-repeat center right; }
+table.table thead .sorting_desc_disabled { background: url('../images/datatable/sort_desc_disabled.png') no-repeat center right; }
+
+.table-bordered>tbody>tr>td {
+  height: 40px;
+  vertical-align: middle;
+}
+
+.zftable-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

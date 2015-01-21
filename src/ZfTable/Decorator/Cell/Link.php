@@ -55,9 +55,23 @@ class Link extends AbstractCellDecorator
         $values = array();
         if (count($this->vars)) {
             $actualRow = $this->getCell()->getActualRow();
-            foreach ($this->vars as $var) {
-                $values[] = $actualRow[$var];
+
+            $getter = false;
+            if(is_object($actualRow)) {
+                $getter = true;
             }
+
+            if($getter) {
+                foreach ($this->vars as $var) {
+                    $getter = 'get' . ucfirst($var);
+                    $values[] = $actualRow->$getter();
+                }
+            } else {
+                foreach ($this->vars as $var) {
+                    $values[] = $actualRow[$var];
+                }
+            }
+
         }
         $url = vsprintf($this->url, $values);
         return sprintf('<a  href="%s">%s</a>', $url, $context);

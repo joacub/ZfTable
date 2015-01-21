@@ -148,6 +148,7 @@ class Render extends AbstractCommon
 
         $view->setVariable('table', $table);
 
+        $view->setVariable('paginatorClass', $this->getTable()->getSource()->getPaginator());
         $view->setVariable('paginator', $this->renderPaginator());
         $view->setVariable('paramsWrap', $this->renderParamsWrap());
         $view->setVariable('itemCountPerPage', $this->getTable()->getParamAdapter()->getItemCountPerPage());
@@ -186,6 +187,7 @@ class Render extends AbstractCommon
                     $element->setValueOptions($params['filters']);
                 }
                 $element->setAttribute('class', 'filter form-control');
+                $element->setAttribute('placeholder', 'Buscar...');
                 $element->setValue($value);
 
                 $render .= sprintf('<td>%s</td>', $this->getRenderer()->formRow($element));
@@ -195,8 +197,6 @@ class Render extends AbstractCommon
         }
         return sprintf('<tr>%s</tr>', $render);
     }
-
-
 
     /**
      * Rendering head

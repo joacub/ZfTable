@@ -45,7 +45,8 @@
             ajax($obj);
         }
         function ajax($obj) {
-            $obj.prepend('<div class="processing" style=""></div>');
+            $obj.prepend('<div class="processing"><div></div></div>');
+
             jQuery.ajax({
                 url: url,
                 data: $obj.find(':input').serialize() + options.sendAdditionalParams(),
@@ -106,14 +107,46 @@
             jQuery('.editable').dblclick(function(){
                 if(jQuery(this).find('input').size() === 0){
                     var val = jQuery(this).html();
-                    jQuery(this).html('<input style="width: 80%" type="text" value="'+val+'" class="form-control"/><a href="#" class="row-save">Save</a>');
+                    jQuery(this).html('<div class="col-sm-8"><input data-old-value="'+val+'" style="width: 100%" type="text" value="'+val+'" class="form-control"/></div><div class="col-sm-4 text-right"><a style="margin-left:5px;" href="#" class="row-save btn btn-primary">Guardar</a><a style="margin-left:5px;" href="#" class="row-close btn btn-default"><i class="fa fa-close"></i></a></div>');
+                    jQuery(this).find('input').focus();
                 }
             });
+
+            $.fn.editable.defaults.mode = 'inline';
+            jQuery('.xeditable').each(function(){
+                var $edit = jQuery(this).find('a');
+                $edit.editable({
+                    //success: function(response, newValue) {
+                    //    //userModel.set('username', newValue); //update backbone model
+                    //}
+                });
+            });
+
+            $('.xeditable .editable').on('hidden', function(e, reason) {
+                if (reason === 'save' || reason === 'nochange') {
+                    var $next = $(this).closest('td').next().find('.editable');
+                    if($next.length <= 0) {
+                        $next = $(this).closest('tr').next().find('.xeditable .editable:first');
+                        if($next.length <= 0) {
+                            $next = $(this).closest('table').find('.xeditable .editable:first');
+                        }
+                    }
+                    if ($('#autoopen').is(':checked')) {
+                        $next.editable('show');
+                        //setTimeout(function() {
+                        //    $next.editable('show');
+                        //}, 300);
+                    } else {
+                        $next.focus();
+                    }
+                }
+            });
+
             $obj.on('click', '.row-save', function(e){
                 e.preventDefault();
                 
-                var newVal = jQuery(this).siblings('input').val();
-                var $td = jQuery(this).parents('td');
+                var newVal = jQuery(this).closest('td').find('input').val();
+                var $td = jQuery(this).closest('td');
                 $td.html(newVal);
                 $td.animateGreenHighlight();
                 jQuery.ajax({
@@ -123,6 +156,15 @@
                     success: function(data) {},
                     dataType: 'json'
                 });
+            });
+
+            $obj.on('click', '.row-close', function(e){
+                e.preventDefault();
+
+                var newVal = jQuery(this).closest('td').find('input').data('old-value');
+                var $td = jQuery(this).closest('td');
+                $td.html(newVal);
+                $td.animateGreenHighlight();
             });
             
             $obj.find('.export-csv').on('click',function(e){

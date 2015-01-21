@@ -8,6 +8,8 @@
 
 namespace ZfTable;
 
+use Nette\Diagnostics\Debugger;
+use Zend\I18n\View\Helper\DateFormat;
 use ZfTable\AbstractElement;
 use ZfTable\Decorator\DecoratorFactory;
 
@@ -104,6 +106,17 @@ class Cell extends AbstractElement
         }
 
         if ($type == 'html') {
+
+            switch(true) {
+
+                case $value instanceof \Datetime:
+                    $dateFormat = new DateFormat();
+                    $value = $dateFormat->__invoke($value, \IntlDateFormatter::MEDIUM,
+                        \IntlDateFormatter::MEDIUM, \Locale::getDefault());
+                    break;
+
+            }
+
             $ret = sprintf("<td %s>%s</td>", $this->getAttributes(), $value);
             $this->clearVar();
             return $ret;

@@ -136,6 +136,11 @@ class Header extends AbstractElement
             $this->getCell()->addDecorator('editable', array());
         }
 
+        if (isset($options['xeditable']) && $options['xeditable'] == true) {
+            $this->editable = $options['xeditable'];
+            $this->getCell()->addDecorator('xeditable', array());
+        }
+
 
         return $this;
     }
@@ -348,6 +353,14 @@ class Header extends AbstractElement
     {
         $this->initRendering();
         $render = $this->getTitle();
+
+        if(isset($this->attributes['width'])) {
+            $width = '100%';
+            if(false === strpos($this->attributes['width'], '%')) {
+                $width = $this->attributes['width'] . 'px';
+            }
+            $render = '<div class="zftable-ellipsis" style="width: ' . $width . '">' . $render . '</div>';
+        }
 
         foreach ($this->decorators as $decorator) {
             $render = $decorator->render($render);
