@@ -186,7 +186,7 @@ class Render extends AbstractCommon
                     $element = new \Zend\Form\Element\Select($id);
                     $element->setValueOptions($params['filters']);
                 }
-                $element->setAttribute('class', 'filter form-control');
+                $element->setAttribute('class', 'filter form-control input-sm');
                 $element->setAttribute('placeholder', 'Buscar...');
                 $element->setValue($value);
 

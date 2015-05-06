@@ -16,6 +16,8 @@ use ZfTable\Options\ModuleOptions;
 
 use ZfTable\Form\TableForm;
 use ZfTable\Form\TableFilter;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Nette\Diagnostics\Debugger;
 
 abstract class AbstractTable extends AbstractElement implements TableInterface
 {
@@ -94,6 +96,19 @@ abstract class AbstractTable extends AbstractElement implements TableInterface
      * @var Options\ModuleOptions
      */
     protected $options = null;
+    
+    public function __construct(ServiceLocatorInterface $sl) 
+    {
+        $config = $sl->get('config');
+        if(isset($config['zftable']['template_Map'])) {
+            $this->config['template_Map'] = $config['zftable']['template_Map'];
+        }
+        
+        if(isset($config['zftable']['default_Item_Count_Per_Page'])) {
+            $this->config['default_Item_Count_Per_Page'] = $config['zftable']['default_Item_Count_Per_Page'];
+        }
+        
+    }
 
 
     /**
@@ -168,6 +183,7 @@ abstract class AbstractTable extends AbstractElement implements TableInterface
             if (!$source) {
                 throw new Exception\LogicException('Source data is required');
             }
+            
             return $source->getData();
         }
         return array();
@@ -280,8 +296,9 @@ abstract class AbstractTable extends AbstractElement implements TableInterface
         }
 
         $this->init();
-
         $this->initFilters($this->getSource()->getSource());
+        $this->getSource()->getPaginator()->setPageRange($this->getOptions()->getDefaultItemCountPerPage());
+
     }
 
 
