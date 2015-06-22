@@ -104,6 +104,13 @@
                    ajax($obj);
                }
             });
+
+            $obj.find('.handlerSubmirFilters').on('click',function(e){
+                e.preventDefault();
+                ajax($obj);
+            });
+
+
             jQuery('.editable').dblclick(function(){
                 if(jQuery(this).find('input').size() === 0){
                     var val = jQuery(this).html();

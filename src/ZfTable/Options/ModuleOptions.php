@@ -29,10 +29,17 @@ class ModuleOptions extends AbstractOptions implements TableOptionsInterface, Da
 
     /**
      * Show or hide quick search view
-     * 
+     *
      * @var boolean
      */
     protected $showQuickSearch = false;
+
+    /**
+     * Show or hide quick search view
+     *
+     * @var boolean
+     */
+    protected $showQuickEdit = false;
 
     /**
      * Show or hide item per page view
@@ -55,6 +62,13 @@ class ModuleOptions extends AbstractOptions implements TableOptionsInterface, Da
      * @var boolean
      */
     protected $showColumnFilters = false;
+
+    /**
+     * Flag to show row with filters (for each column)
+     *
+     * @var boolean
+     */
+    protected $showColumnFiltersInHeader = false;
 
     /**
      * Definition of
@@ -206,6 +220,11 @@ class ModuleOptions extends AbstractOptions implements TableOptionsInterface, Da
         return $this->showQuickSearch;
     }
 
+    public function getShowQuickEdit()
+    {
+        return $this->showQuickEdit;
+    }
+
     public function getShowItemPerPage()
     {
         return $this->showItemPerPage;
@@ -239,6 +258,11 @@ class ModuleOptions extends AbstractOptions implements TableOptionsInterface, Da
     public function setShowQuickSearch($showQuickSearch)
     {
         $this->showQuickSearch = $showQuickSearch;
+    }
+
+    public function setShowQuickEdit($showQuickEdit)
+    {
+        $this->showQuickEdit = $showQuickEdit;
     }
 
     public function setShowItemPerPage($showItemPerPage)
@@ -278,4 +302,22 @@ class ModuleOptions extends AbstractOptions implements TableOptionsInterface, Da
     {
         $this->defaultItemCountPerPage = $defaultItemCountPerPage;
     }
+
+    /**
+     * @return boolean
+     */
+    public function getShowColumnFiltersInHeader()
+    {
+        return $this->showColumnFiltersInHeader;
+    }
+
+    /**
+     * @param boolean $showColumnFiltersInHeader
+     */
+    public function setShowColumnFiltersInHeader($showColumnFiltersInHeader)
+    {
+        $this->showColumnFiltersInHeader = $showColumnFiltersInHeader;
+    }
+
+
 }

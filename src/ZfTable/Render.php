@@ -8,6 +8,7 @@
 
 namespace ZfTable;
 
+use Nette\Diagnostics\Debugger;
 use Zend\View\Resolver;
 use Zend\View\Renderer\PhpRenderer;
 use ZfTable\Options\ModuleOptions;
@@ -148,6 +149,11 @@ class Render extends AbstractCommon
 
         $view->setVariable('table', $table);
 
+        if ($tableConfig->getShowColumnFiltersInHeader()) {
+            $view->setVariable('filtersInHeader', $this->renderFiltersInHeader());
+        }
+
+
         $view->setVariable('paginatorClass', $this->getTable()->getSource()->getPaginator());
         $view->setVariable('paginator', $this->renderPaginator());
         $view->setVariable('paramsWrap', $this->renderParamsWrap());
@@ -196,6 +202,41 @@ class Render extends AbstractCommon
             }
         }
         return sprintf('<tr>%s</tr>', $render);
+    }
+
+    /**
+     * Rendering filters
+     *
+     * @return string
+     */
+    public function renderFiltersInHeader()
+    {
+        $headers = $this->getTable()->getHeaders();
+        $render = '';
+
+        foreach ($headers as $name => $params) {
+
+            if (isset($params['filters'])) {
+                $value = $this->getTable()->getParamAdapter()->getValueOfFilter($name);
+                $id = 'zff_'.$name;
+
+                if (is_string($params['filters'])) {
+                    $element = new \Zend\Form\Element\Text($id);
+                } else {
+                    $element = new \Zend\Form\Element\Select($id);
+                    $element->setValueOptions($params['filters']);
+                }
+
+                $element->setAttribute('class', 'filter form-control input-sm');
+                $element->setAttribute('placeholder', $params['title']);
+                $element->setValue($value);
+
+                $render .= sprintf('<div class="form-group">%s</div>', $this->getRenderer()->formRow($element));
+            } else {
+//                $render .= '<div></div>';
+            }
+        }
+        return sprintf('<div class="form-body">%s</div>', $render);
     }
 
     /**
