@@ -355,7 +355,7 @@ class Header extends AbstractElement
         $render = $this->getTitle();
 
         if(isset($this->attributes['width'])) {
-            $width = '90%';
+            $width = '80%';
             if(false === strpos($this->attributes['width'], '%')) {
                 $width = $this->attributes['width'] . 'px';
             }

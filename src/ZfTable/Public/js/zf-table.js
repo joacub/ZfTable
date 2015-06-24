@@ -1,4 +1,19 @@
 (function(jQuery) {
+
+    jQuery.fn.clearForm = function() {
+        return this.each(function() {
+            var type = this.type, tag = this.tagName.toLowerCase();
+            if (tag == 'form')
+                return $(':input',this).clearForm();
+            if (type == 'text' || type == 'password' || tag == 'textarea')
+                this.value = '';
+            else if (type == 'checkbox' || type == 'radio')
+                this.checked = false;
+            else if (tag == 'select')
+                this.selectedIndex = -1;
+        });
+    };
+
     jQuery.fn.animateGreenHighlight = function (highlightColor, duration) {
         var highlightBg = highlightColor || "#68e372";
         var animateMs = duration || "1000"; // edit is here
@@ -112,7 +127,7 @@
 
             $obj.find('.handlerResetFilters').on('click',function(e){
                 e.preventDefault();
-                $(this).closest('form')[0].reset();
+                $(this).closest('form').clearForm();
                 ajax($obj);
             });
 
