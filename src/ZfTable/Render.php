@@ -139,9 +139,10 @@ class Render extends AbstractCommon
             $render .= $this->renderFilters();
         }
 
-        $render .= $this->renderHead();
+        $head = $render .= $this->renderHead();
         $render = sprintf('<thead>%s</thead>', $render);
         $render .= $this->getTable()->getRow()->renderRows();
+        $render .= sprintf('<tfoot>%s</tfoot>', $head);
         $table = sprintf('<table %s>%s</table>', $this->getTable()->getAttributes(), $render);
 
         $view = new \Zend\View\Model\ViewModel();

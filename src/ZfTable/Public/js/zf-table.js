@@ -105,8 +105,14 @@
                }
             });
 
-            $obj.find('.handlerSubmirFilters').on('click',function(e){
+            $obj.find('.handlerSubmitFilters').on('click',function(e){
                 e.preventDefault();
+                ajax($obj);
+            });
+
+            $obj.find('.handlerResetFilters').on('click',function(e){
+                e.preventDefault();
+                $(this).closest('form')[0].reset();
                 ajax($obj);
             });
 
