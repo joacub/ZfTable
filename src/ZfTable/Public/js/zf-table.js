@@ -48,7 +48,7 @@
         };
         
         var options = $.extend(defaults, options);
-        
+
         function strip(html){
             var tmp = document.createElement("DIV");
             tmp.innerHTML = html;
@@ -184,6 +184,52 @@
                     success: function(data) {},
                     dataType: 'json'
                 });
+            });
+
+            $obj.on('click', '.bulkActions ul li a', function(e){
+
+                e.preventDefault();
+
+                var $this = $(this);
+                var id = $this.attr('id');
+
+                switch (id) {
+                    case 'delete':
+                        if($obj.find('input[type="checkbox"]:checked.bulkactions').length > 0) {
+
+                            $('#modal-bootstrap-information-info').modal();
+
+                            var ids = $obj.find('input[type="checkbox"]:checked.bulkactions').serializeArray();
+                            jQuery.ajax({
+                                url:  $obj.find('.rowAction').attr('href'),
+                                data: {action: id , values : ids },
+                                type: 'POST',
+                                success: function(data) {
+                                    $('#modal-bootstrap-information-info').modal('hide');
+                                    $obj.find('input[type="checkbox"]:checked.bulkactions').hide('slow', function() {
+                                        $obj.find('input[type="checkbox"]:checked.bulkactions').remove();
+                                    });
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR.responseText);
+                                    $('#modal-bootstrap-information-info').modal('hide');
+                                    $('#modal-bootstrap-information-important .modal-body').html('Ocurrio un error: <br> <pre>' + jqXHR.responseText + '</pre>');
+                                    $('#modal-bootstrap-information-important').modal();
+                                },
+                                dataType: 'json'
+                            });
+                        } else {
+                            $('#modal-bootstrap-information-important .modal-body').html('No ha seleccionado nada para borrar');
+                            $('#modal-bootstrap-information-important').modal();
+                        }
+                        break;
+                    case 'select-all':
+                        $obj.find('input[type="checkbox"].bulkactions').prop('checked', true);
+                        break;
+                    case 'unselect-all':
+                        $obj.find('input[type="checkbox"].bulkactions').prop('checked', false);
+                        break;
+                }
             });
 
             $obj.on('click', '.row-close', function(e){

@@ -49,6 +49,20 @@ class ModuleOptions extends AbstractOptions implements TableOptionsInterface, Da
     protected $showItemPerPage = true;
 
     /**
+     * Show or hide item per page view
+     *
+     * @var array
+     */
+    protected $bulkActions = ['select-all' => ['label' => 'Select all', 'icon' => 'fa-check-square'], 'unselect-all' => ['label' => 'Unselect All', 'icon' => 'fa-check-square-o'], 'separator', 'delete' => ['label' => 'Delete', 'icon' => 'fa-trash']];
+
+    /**
+     * Show or hide item per page view
+     *
+     * @var boolean
+     */
+    protected $showBulkActions = true;
+
+    /**
      *
      * @todo item and default count per page
      *       Default value for item count per page
@@ -129,6 +143,39 @@ class ModuleOptions extends AbstractOptions implements TableOptionsInterface, Da
         
         parent::__construct($options);
     }
+
+    /**
+     * @return array
+     */
+    public function getBulkActions()
+    {
+        return $this->bulkActions;
+    }
+
+    /**
+     * @param array $bulkActions
+     */
+    public function setBulkActions($bulkActions)
+    {
+        $this->bulkActions = $bulkActions;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isShowBulkActions()
+    {
+        return $this->showBulkActions;
+    }
+
+    /**
+     * @param boolean $showBulkActions
+     */
+    public function setShowBulkActions($showBulkActions)
+    {
+        $this->showBulkActions = $showBulkActions;
+    }
+
 
     public function getShowExportToCSV()
     {
