@@ -192,7 +192,7 @@ class Render extends AbstractCommon
                 $value = $this->getTable()->getParamAdapter()->getValueOfFilter($name);
                 $id = 'zff_'.$name;
 
-                if (class_exists($params['filters'])) {
+                if (!is_array($params['filters']) && class_exists($params['filters'])) {
                     $element = new $params['filters']($id);
                 } else if (is_string($params['filters'])) {
                     $element = new \Zend\Form\Element\Text($id);
@@ -232,7 +232,7 @@ class Render extends AbstractCommon
                 if(!isset($params['placeholder']))
                     $params['placeholder'] = $params['title'];
 
-                if (class_exists($params['filters'])) {
+                if (!is_array($params['filters']) && class_exists($params['filters'])) {
                     $element = new $params['filters']($id);
                 } else if (is_string($params['filters'])) {
                     $element = new \Zend\Form\Element\Text($id);
