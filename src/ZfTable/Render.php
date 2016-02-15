@@ -9,6 +9,7 @@
 namespace ZfTable;
 
 use Nette\Diagnostics\Debugger;
+use Zend\Form\Element;
 use Zend\View\Resolver;
 use Zend\View\Renderer\PhpRenderer;
 use ZfTable\Options\ModuleOptions;
@@ -191,12 +192,15 @@ class Render extends AbstractCommon
                 $value = $this->getTable()->getParamAdapter()->getValueOfFilter($name);
                 $id = 'zff_'.$name;
 
-                if (is_string($params['filters'])) {
+                if (class_exists($params['filters'])) {
+                    $element = new $params['filters']($id);
+                } else if (is_string($params['filters'])) {
                     $element = new \Zend\Form\Element\Text($id);
                 } else {
                     $element = new \Zend\Form\Element\Select($id);
                     $element->setValueOptions($params['filters']);
                 }
+
                 $element->setAttribute('class', 'filter form-control input-sm');
                 $element->setAttribute('placeholder', 'Buscar...');
                 $element->setValue($value);
@@ -225,7 +229,12 @@ class Render extends AbstractCommon
                 $value = $this->getTable()->getParamAdapter()->getValueOfFilter($name);
                 $id = 'zff_'.$name;
 
-                if (is_string($params['filters'])) {
+                if(!isset($params['placeholder']))
+                    $params['placeholder'] = $params['title'];
+
+                if (class_exists($params['filters'])) {
+                    $element = new $params['filters']($id);
+                } else if (is_string($params['filters'])) {
                     $element = new \Zend\Form\Element\Text($id);
                 } else {
                     $element = new \Zend\Form\Element\Select($id);
@@ -233,7 +242,8 @@ class Render extends AbstractCommon
                 }
 
                 $element->setAttribute('class', 'filter form-control input-sm');
-                $element->setAttribute('placeholder', $params['title']);
+                $element->setAttribute('placeholder', $params['placeholder']);
+                $element->setAttribute('data-placeholder', $params['placeholder']);
                 $element->setValue($value);
 
                 $render .= sprintf('<div class="form-group">%s</div>', $this->getRenderer()->formRow($element));

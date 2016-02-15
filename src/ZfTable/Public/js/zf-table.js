@@ -66,21 +66,21 @@
                 url: url,
                 data: $obj.find(':input').serialize() + options.sendAdditionalParams(),
                 type: 'POST',
-                
+
                 beforeSend: function( e ){ options.beforeSend( e ) },
                 success: function(data) {
                     $obj.html('');
                     $obj.html(data);
                     initNavigation($obj);
                     $obj.find('.processing').hide();
-                    
-                    
+
+
                     options.success();
                 },
-                        
+
                 error : function(e){ options.error( e )},
                 complete : function(e){ options.complete( e )},
-                
+
                 dataType: 'html'
             });
             
