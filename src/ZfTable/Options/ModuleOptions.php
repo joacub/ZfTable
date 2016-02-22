@@ -63,6 +63,13 @@ class ModuleOptions extends AbstractOptions implements TableOptionsInterface, Da
     protected $showBulkActions = true;
 
     /**
+     * Show or hide item per page view
+     *
+     * @var boolean
+     */
+    protected $showHeadingTitle = true;
+
+    /**
      *
      * @todo item and default count per page
      *       Default value for item count per page
@@ -166,6 +173,14 @@ class ModuleOptions extends AbstractOptions implements TableOptionsInterface, Da
     public function isShowBulkActions()
     {
         return $this->showBulkActions;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isShowHeadingTitle()
+    {
+        return $this->showHeadingTitle;
     }
 
     /**
@@ -312,6 +327,11 @@ class ModuleOptions extends AbstractOptions implements TableOptionsInterface, Da
         $this->showQuickEdit = $showQuickEdit;
     }
 
+    public function setShowHeadingTitle($showHeadingTitle)
+    {
+        $this->showHeadingTitle = $showHeadingTitle;
+    }
+
     public function setShowItemPerPage($showItemPerPage)
     {
         $this->showItemPerPage = $showItemPerPage;
@@ -365,6 +385,7 @@ class ModuleOptions extends AbstractOptions implements TableOptionsInterface, Da
     {
         $this->showColumnFiltersInHeader = $showColumnFiltersInHeader;
     }
+
 
 
 }

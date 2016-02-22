@@ -123,6 +123,7 @@ class Render extends AbstractCommon
         $view->setVariable('showItemPerPage', $tableConfig->getShowItemPerPage());
         $view->setVariable('showExportToCSV', $tableConfig->getShowExportToCSV());
         $view->setVariable('showBulkActions', $tableConfig->isShowBulkActions());
+        $view->setVariable('showHeadingTitle', $tableConfig->isShowHeadingTitle());
         $view->setVariable('bulkActions', $tableConfig->getBulkActions());
 
         return $this->getRenderer()->render($view);
