@@ -72,7 +72,7 @@ class DoctrineQueryBuilder extends AbstractSource
             $this->query->join($tableAlias, $joinAlias);
             $this->query->orderBy($joinAlias . '.' . $header->getOrderJoin(), $order);
         } else {
-            $this->query->orderBy($header->getOrderJoin(), $order);
+            $this->query->orderBy($tableAlias, $order);
         }
 
     }
