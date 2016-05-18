@@ -57,6 +57,13 @@ class Header extends AbstractElement
     protected $sortable = true;
 
     /**
+     * Flag to inform if column should be sortable
+     *
+     * @var boolean
+     */
+    protected $orderJoin = false;
+
+    /**
      * Check if column is separatable
      *
      * @var boolean
@@ -128,8 +135,10 @@ class Header extends AbstractElement
         $this->width = (isset($options['width'])) ? $options['width'] : '';
         $this->order = (isset($options['order'])) ? $options['order'] : true;
         $this->sortable = (isset($options['sortable'])) ? $options['sortable'] : true;
+        $this->orderJoin = (isset($options['orderJoin'])) ? $options['orderJoin'] : false;
         $this->separatable = (isset($options['separatable'])) ? $options['separatable'] : $this->getSeparatable();
         $this->tableAlias = (isset($options['tableAlias'])) ? $options['tableAlias'] : '';
+
 
         if (isset($options['editable']) && $options['editable'] == true) {
             $this->editable = $options['editable'];
@@ -247,6 +256,26 @@ class Header extends AbstractElement
     public function setSortable($sortable)
     {
         $this->sortable = $sortable;
+    }
+
+    /**
+     * Get sortable flag
+     *
+     * @return boolean
+     */
+    public function getOrderJoin()
+    {
+        return $this->orderJoin;
+    }
+
+    /**
+     * Set flat to inform about sortable
+     *
+     * @param boolean $sortable
+     */
+    public function setOrderJoin($orderJoin)
+    {
+        $this->orderJoin = $orderJoin;
     }
 
     /**

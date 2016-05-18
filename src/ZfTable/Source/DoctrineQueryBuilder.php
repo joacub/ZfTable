@@ -41,33 +41,40 @@ class DoctrineQueryBuilder extends AbstractSource
 
             $this->order();
 
-             $adapter = new DoctrineAdapter(new ORMPaginator($this->query));
-             $this->paginator = new Paginator($adapter);
-             $this->initPaginator();
+            $adapter = new DoctrineAdapter(new ORMPaginator($this->query));
+            $adapter->getPaginator()->setUseOutputWalkers(false);
+            $this->paginator = new Paginator($adapter);
+            $this->initPaginator();
 
         }
         return $this->paginator;
     }
 
 
-
     protected function order()
     {
         $column = $this->getParamAdapter()->getColumn();
-        $order = $this->getParamAdapter()->getOrder();
+        $order  = $this->getParamAdapter()->getOrder();
 
         if (!$column) {
             return;
         }
 
-        $header = $this->getTable()->getHeader($column);
+        $header     = $this->getTable()->getHeader($column);
         $tableAlias = ($header) ? $header->getTableAlias() : 'q';
 
         if (false === strpos($tableAlias, '.')) {
-            $tableAlias = $tableAlias.'.'.$column;
+            $tableAlias = $tableAlias . '.' . $column;
         }
 
-        $this->query->orderBy($tableAlias, $order);
+        if($header->getOrderJoin()) {
+            $joinAlias = 'j' . str_replace('.', '_', $tableAlias);
+            $this->query->join($tableAlias, $joinAlias);
+            $this->query->orderBy($joinAlias . '.' . $header->getOrderJoin(), $order);
+        } else {
+            $this->query->orderBy($header->getOrderJoin(), $order);
+        }
+
     }
 
 
