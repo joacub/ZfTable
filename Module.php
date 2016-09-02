@@ -1,11 +1,25 @@
 <?php
 namespace ZfTable;
 
+use Zend\EventManager\EventInterface;
+use Zend\ModuleManager\Feature\BootstrapListenerInterface;
+use Zend\Mvc\MvcEvent;
+use ZfTable\Decorator\DecoratorFactory;
 use ZfTable\Example\Model\CustomerTable;
 
 
-class Module
+class Module implements BootstrapListenerInterface
 {
+    public function onBootstrap(EventInterface $e)
+    {
+        /**
+         * @var $e MvcEvent
+         */
+        DecoratorFactory::setContainer($e->getApplication()->getServiceManager());
+        // TODO: Implement onBootstrap() method.
+    }
+
+
     public function getAutoloaderConfig()
     {
         return array(

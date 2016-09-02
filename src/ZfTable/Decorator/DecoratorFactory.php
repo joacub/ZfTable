@@ -8,6 +8,8 @@
 
 namespace ZfTable\Decorator;
 
+use Interop\Container\ContainerInterface;
+
 class DecoratorFactory
 {
 
@@ -18,9 +20,17 @@ class DecoratorFactory
      */
     protected static $decoratorManager = null;
 
+    protected static $container = null;
+
     const CELL_PREFIX = 'cell';
     const HEADER_PREFIX = 'header';
     const ROW_PREFIX = 'row';
+
+    public static function setContainer(ContainerInterface $container)
+    {
+
+        self::$container = $container;
+    }
 
     /**
      *
@@ -66,7 +76,7 @@ class DecoratorFactory
     public static function getPluginManager()
     {
         if (static::$decoratorManager === null) {
-            static::$decoratorManager = new DecoratorPluginManager();
+            static::$decoratorManager = new DecoratorPluginManager(self::$container);
         }
         return static::$decoratorManager;
     }
