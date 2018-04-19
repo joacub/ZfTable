@@ -207,7 +207,7 @@
                                 success: function(data) {
                                     $('#modal-bootstrap-information-info').modal('hide');
                                     $obj.find('input[type="checkbox"]:checked.bulkactions').hide('slow', function() {
-                                        $obj.find('input[type="checkbox"]:checked.bulkactions').remove();
+                                        $obj.find('input[type="checkbox"]:checked.bulkactions').closest('tr').remove();
                                     });
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
@@ -216,7 +216,6 @@
                                     $('#modal-bootstrap-information-important .modal-body').html('Ocurrio un error: <br> <pre>' + jqXHR.responseText + '</pre>');
                                     $('#modal-bootstrap-information-important').modal();
                                 },
-                                dataType: 'json'
                             });
                         } else {
                             $('#modal-bootstrap-information-important .modal-body').html('No ha seleccionado nada para borrar');
